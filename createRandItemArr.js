@@ -24,7 +24,7 @@ function createRandItemArr(arr, randFunc) {
 
 	for( let i = length; i >= 0; i-- ) {
 		let randNum = randFunc(i);
-		//checking randNum(second argument) for number
+		//checking randFunc(second argument) for number
 		if( typeof randNum !== 'number' ) {
 			console.warn('function createRandItemArr: randFunc(second argument) don`t return number!');
 			return;
