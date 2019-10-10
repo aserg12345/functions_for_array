@@ -10,59 +10,63 @@
 //value элемента массива;
 //mutable(string) - ('y' / 'n') - 'y'(мутировать исходный массив)
 //'n'(не мутировать исходный массив).
-function delArrItem(arr, type, meaning, mutable) {
+function removeArrItem(arr, type, meaning, mutable) {
 	let returnObj = {};
 	/////////error handling
 	if(arguments.length !== 4){
-		console.warn('wrong number of arguments');
+		console.warn('function removeArrItem: wrong number of arguments');
 		return;		
 	}
-
+	if( !Array.isArray(arr) ) {
+		console.warn('function removeArrItem: arr(first argument) is not an array!');
+		return;
+	}
+	if( arr.length === 0 ) {
+		console.warn('function removeArrItem: arr(first argument) is empty!'); 
+		return;
+	}
 	if(type !== 'index' && type !== 'value'){
-		console.warn('"type" must be "index" or "value"');
+		console.warn('function removeArrItem: "type" must be "index" or "value"');
 		return;		
 	}
-
 	if(type === 'index' && meaning >= arr.length || 
 	   type === 'index' && meaning < 0 ||
 	   type === 'index' && isNaN(meaning)) {
-		console.warn('"meaning"(index of "arr") must be positive number or 0!' );
+		console.warn('function removeArrItem: "meaning"(index of "arr") must be positive number less than the length of the arr or 0!' );
 		return;
 	}
-
 	if(mutable !== 'y' && mutable !== 'n'){
-		console.warn('"mutable" parameter must be "y" or "n"');
+		console.warn('function removeArrItem: "mutable" parameter must be "y" or "n"');
 		return;
 	}
-
-	const isAbsent = () => {console.warn('the array value is absent!' )};
+	const sendMessArrValIsEmpty = () => {console.warn('function removeArrItem: the array value is empty!' )};
 	//////////////////////
 
-	//delete by index (unmutable)
+	//remove by index (unmutable)
 	if(type === 'index' && mutable === 'n') {
 		returnObj.newArray = arr.filter( (val, ind) => ind !== meaning );
 		returnObj.removedIndex = meaning;
 		returnObj.removedValue = arr[meaning];	
 	}
 
-	//delete by value (unmutable)
+	//remove by value (unmutable)
 	if(type === 'value' && mutable === 'n') {
-		let isPresent = 0;
+		let isCurrent = 0;
 		returnObj.newArray = arr.filter( (val, ind) => {
 			if(val === meaning)	{
-				returnObj.removedIndex = ind;//достаю удаляемый индекс
-				returnObj.removedValue = meaning;//достаю удаляемое value
-				isPresent = 1;
+				returnObj.removedIndex = ind;//save removed index
+				returnObj.removedValue = meaning;//save removed value
+				isCurrent = 1;
 			}
 			return val !== meaning;
 		} );
-		if(isPresent === 0){
-			isAbsent();	
+		if(isCurrent === 0){
+			sendMessArrValIsEmpty();	
 			return;
 		}
 	}
 
-	//delete by index (mutable)
+	//remove by index (mutable)
 	if(type === 'index' && mutable === 'y') {
 		returnObj.removedIndex = meaning;
 		returnObj.removedValue = arr[meaning];
@@ -70,19 +74,19 @@ function delArrItem(arr, type, meaning, mutable) {
 		returnObj.newArray = arr;
 	}
 
-	//delete by value (mutable)		
+	//remove by value (mutable)		
 	if(type === 'value' && mutable === 'y') {
-		let isPresent = 0;	
+		let isCurrent = 0;	
 		returnObj.newArray = arr.filter( (val, ind) => {
 			if(val === meaning)	{
-				returnObj.removedIndex = ind;//достаю удаляемый индекс
-				returnObj.removedValue = meaning//достаю удаляемое value
-				isPresent = 1;
+				returnObj.removedIndex = ind;//save removed index
+				returnObj.removedValue = meaning//save removed value
+				isCurrent = 1;
 			}						
 			return val !== meaning;
 		} );
-		if(isPresent === 0){
-			isAbsent();	
+		if(isCurrent === 0){
+			sendMessArrValIsEmpty();	
 			return;
 		}
 		arr.splice(returnObj.removedIndex, 1);
