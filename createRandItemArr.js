@@ -28,6 +28,7 @@ function createRandItemArr(arr, randFunc) {
 			console.warn('function createRandItemArr: randFunc(second argument) don`t return number!');		
 	};
 	////////////////////
+	//
 	const cache = [];
 	const newArr = arr.slice();
 	const length = newArr.length-1;
@@ -45,7 +46,6 @@ function createRandItemArr(arr, randFunc) {
 			continue;
 		}
 		cache.push(newArr[randNum]);
-		console.log(newArr[randNum]);
 		newArr.splice(randNum, 1);
 	}
 	return cache;
